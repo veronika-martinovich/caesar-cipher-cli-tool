@@ -1,11 +1,9 @@
 const { program } = require("commander");
 const fs = require("fs");
 const path = require("path");
-const { Transform } = require("stream");
 const { processCipher } = require("./processCipher");
-const { encodeCipher } = require("./encodeCipher");
-const { decodeCipher } = require("./decodeCipher");
-const { validateFile } = require("./validateFile");
+const { validateArgs } = require("./validateArgs");
+const { createTransformStream } = require("./createTransformStream");
 
 program.storeOptionsAsProperties(true);
 
@@ -16,34 +14,18 @@ program
   .option("-o, --output <type>", "output file")
   .parse(process.argv);
 
-if (!program.actionType || !program.shift) {
-  console.error("Please, provide required arguments: action and shift");
-  process.exit(1);
-}
+const { actionType, shift, input, output } = program;
 
-validateFile(path.join(__dirname, program.input));
-validateFile(path.join(__dirname, program.output));
+validateArgs(actionType, shift, input, output);
 
-const readStream = program.input
-  ? fs.createReadStream(path.join(__dirname, program.input))
+const readStream = input
+  ? fs.createReadStream(path.join(__dirname, input))
   : process.stdin;
 
-const writeStream = program.output
-  ? fs.createWriteStream(path.join(__dirname, program.output), { flags: "a+" })
+const writeStream = output
+  ? fs.createWriteStream(path.join(__dirname, output), { flags: "a+" })
   : process.stdout;
 
-const transformStream = new Transform({
-  transform(chunk, encoding, callback) {
-    const data = chunk.toString();
-    let transformedData;
-    if (program.actionType === "encode") {
-      transformedData = encodeCipher(Number(program.shift), data);
-    } else if (program.actionType === "decode") {
-      transformedData = decodeCipher(Number(program.shift), data);
-    }
-    this.push(transformedData);
-    callback();
-  },
-});
+const transformStream = createTransformStream(actionType, shift);
 
 processCipher(readStream, writeStream, transformStream);
