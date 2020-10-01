@@ -5,6 +5,7 @@ const { Transform } = require("stream");
 const { processCipher } = require("./processCipher");
 const { encodeCipher } = require("./encodeCipher");
 const { decodeCipher } = require("./decodeCipher");
+const { validateFile } = require("./validateFile");
 
 program.storeOptionsAsProperties(true);
 
@@ -20,12 +21,15 @@ if (!program.actionType || !program.shift) {
   process.exit(1);
 }
 
+validateFile(path.join(__dirname, program.input));
+validateFile(path.join(__dirname, program.output));
+
 const readStream = program.input
   ? fs.createReadStream(path.join(__dirname, program.input))
   : process.stdin;
 
 const writeStream = program.output
-  ? fs.createWriteStream(path.join(__dirname, program.output), { flags: 'a+' })
+  ? fs.createWriteStream(path.join(__dirname, program.output), { flags: "a+" })
   : process.stdout;
 
 const transformStream = new Transform({
