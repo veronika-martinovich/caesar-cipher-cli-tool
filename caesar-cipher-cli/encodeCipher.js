@@ -1,7 +1,6 @@
 const { alphabet, ALPHABET } = require("./data");
 
 const encodeCipher = (shift, text) => {
-  console.log(text, shift)
   const decodeArr = text.split("");
   const encodeArr = decodeArr.map((item) => {
     if (alphabet.includes(item)) {
@@ -12,7 +11,6 @@ const encodeCipher = (shift, text) => {
       return item;
     }
   });
-  console.log('end', encodeArr.join(""));
   return encodeArr.join("");
 };
 

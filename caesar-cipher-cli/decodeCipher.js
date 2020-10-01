@@ -19,7 +19,6 @@ const decodeCipher = (shift, text) => {
       return item;
     }
   });
-  console.log('start', decodeArr.join(""));
   return decodeArr.join("");
 };
 
