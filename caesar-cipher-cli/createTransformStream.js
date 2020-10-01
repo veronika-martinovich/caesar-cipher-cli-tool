@@ -1,6 +1,7 @@
 const { Transform } = require("stream");
 const { encodeCipher } = require("./encodeCipher");
 const { decodeCipher } = require("./decodeCipher");
+const os = require("os");
 
 const createTransformStream = (actionType, shift) => {
   return new Transform({
@@ -13,6 +14,7 @@ const createTransformStream = (actionType, shift) => {
         transformedData = decodeCipher(Number(shift), data);
       }
       this.push(transformedData);
+      this.push(os.EOL);
       callback();
     },
   });

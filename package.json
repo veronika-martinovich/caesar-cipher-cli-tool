@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/veronika-martinovich/caesar-cipher-cli-tool#readme",
   "dependencies": {
+    "chalk": "^4.1.0",
     "commander": "^6.1.0"
   }
 }

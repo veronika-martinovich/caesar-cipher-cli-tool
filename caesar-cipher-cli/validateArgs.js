@@ -1,9 +1,10 @@
 const { validateFile } = require("./validateFile");
 const path = require("path");
+const chalk = require('chalk');
 
 const validateArgs = (actionType, shift, input, output) => {
   if (!actionType || !shift) {
-    console.error("Please, provide required arguments: action and shift");
+    console.error(chalk.red.inverse("Please, provide required arguments: action and shift"));
     process.exit(1);
   }
   if (input) validateFile(path.join(__dirname, input));
