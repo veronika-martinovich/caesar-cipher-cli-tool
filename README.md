@@ -2,12 +2,9 @@
 
 **A tool to encode and decode a text by Caesar cipher**
 
-To encode or decode text you should pass 2-4 options to CLI. Each option includes:
-* name
-* value
-
-These options are:
-1. -a, --action  
+To encode or decode text you should pass 4 options to CLI. Each option consists of name and value.
+The options are:
+1. -a, --action-type  
 A value for this option should be a string operation name. There are two possible variants: "encode" and "decode".
 1. -s, --shift  
 A value for this option should be a number for the amount of shifted symbols.
@@ -16,7 +13,7 @@ A value for this option should be an input file name.
 1. -o, --output  
 A value for this option should be an output file name.
 
-**--action** and **--shift** options are required while input and output are not. If the **--input** or **--output** options are missed you should pass the text to and read the transformed text in the CLI.
+**--action-type** and **--shift** options are required while input and output are not. If the **--input** or **--output** options are missed you should pass the text to and read the transformed text in the CLI.
 
 To start the program you should run ```index.js``` file. The file is in the ```caesar-cipher-cli``` folder.
 
