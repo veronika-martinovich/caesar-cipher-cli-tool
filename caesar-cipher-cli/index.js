@@ -5,18 +5,18 @@ const { processCipher } = require("./processCipher");
 const { validateArgs } = require("./validateArgs");
 const { createTransformStream } = require("./createTransformStream");
 
-program.storeOptionsAsProperties(true);
-
+program.storeOptionsAsProperties(false).passCommandToAction(false);
 program
-  .option("-a, --action-type <type>", "encode or decode operation")
+  .option("-a, --action <type>", "encode or decode operation")
   .option("-s, --shift <type>", "amount of shifted symbols")
   .option("-i, --input <type>", "input file")
   .option("-o, --output <type>", "output file")
   .parse(process.argv);
 
-const { actionType, shift, input, output } = program;
+const programOptions = program.opts();
+const { action, shift, input, output } = programOptions;
 
-validateArgs(actionType, shift, input, output);
+validateArgs(action, shift, input, output);
 
 const readStream = input
   ? fs.createReadStream(path.join(__dirname, input))
@@ -26,6 +26,6 @@ const writeStream = output
   ? fs.createWriteStream(path.join(__dirname, output), { flags: "a+" })
   : process.stdout;
 
-const transformStream = createTransformStream(actionType, shift);
+const transformStream = createTransformStream(action, shift);
 
 processCipher(readStream, writeStream, transformStream);
