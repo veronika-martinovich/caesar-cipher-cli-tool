@@ -3,14 +3,14 @@ const { encodeCipher } = require("./encodeCipher");
 const { decodeCipher } = require("./decodeCipher");
 const os = require("os");
 
-const createTransformStream = (actionType, shift) => {
+const createTransformStream = (action, shift) => {
   return new Transform({
     transform(chunk, encoding, callback) {
       const data = chunk.toString();
       let transformedData;
-      if (actionType === "encode") {
+      if (action === "encode") {
         transformedData = encodeCipher(Number(shift), data);
-      } else if (actionType === "decode") {
+      } else if (action === "decode") {
         transformedData = decodeCipher(Number(shift), data);
       }
       this.push(transformedData);
