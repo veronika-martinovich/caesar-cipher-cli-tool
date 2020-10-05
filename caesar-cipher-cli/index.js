@@ -19,11 +19,14 @@ const { action, shift, input, output } = programOptions;
 validateArgs(action, shift, input, output);
 
 const readStream = input
-  ? fs.createReadStream(path.join(__dirname, input))
+  ? fs.createReadStream(path.join(__dirname, input), { encoding: "utf8" })
   : process.stdin;
 
 const writeStream = output
-  ? fs.createWriteStream(path.join(__dirname, output), { flags: "a+" })
+  ? fs.createWriteStream(path.join(__dirname, output), {
+      encoding: "utf8",
+      flags: "a+",
+    })
   : process.stdout;
 
 const transformStream = createTransformStream(action, shift);
